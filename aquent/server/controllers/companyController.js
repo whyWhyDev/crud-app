@@ -32,7 +32,7 @@ companyController.getCompanies = (req, res, next) => {
 
 companyController.createCompany = (req, res, next) => {
   const companyInfo = destruct(req.body);
-  const statement = `INSERT INTO companies (company_name, company_phone, company_uri, company_street, company_state, company_city, company_zip_code) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+  const statement = `INSERT INTO companies (name, phone, uri, street, state, city, zip_code) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
   db.query(statement, companyInfo, (err, result) => {
     if (err) return next(errMessage('createCompany'));
     res.locals.company = result.rows[0];
@@ -42,7 +42,7 @@ companyController.createCompany = (req, res, next) => {
 
 companyController.updateCompany = (req, res, next) => {
   const companyInfo = destruct(req.body);
-  const statement = `UPDATE companies SET company_name = $1, company_phone = $2, company_uri = $3, company_street = $4, company_state = $5, company_city = $6, company_zip_code = $7 WHERE _id = ${req.params.companyId} RETURNING *`;
+  const statement = `UPDATE companies SET name = $1, phone = $2, uri = $3, street = $4, state = $5, city = $6, zip_code = $7 WHERE _id = ${req.params.company_id} RETURNING *`;
   db.query(statement, companyInfo, (err, result) => {
     if (err) return next(errMessage('updateCompany'));
     res.locals.company = result.rows[0];

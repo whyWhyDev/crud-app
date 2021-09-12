@@ -3,26 +3,26 @@
 
 CREATE TABLE public.contacts (
   _id serial PRIMARY KEY NOT NULL,
-  contact_first_name varchar NOT NULL,
-  contact_last_name varchar NOT NULL,
-  contact_company_id integer DEFAULT 0,
-  contact_company_name varchar,
-  contact_email varchar NOT NULL,
-  contact_street varchar NOT NULL,
-  contact_state varchar NOT NULL,
-  contact_city varchar NOT NULL,
-  contact_zip_code varchar NOT NULL
+  first_name varchar NOT NULL,
+  last_name varchar NOT NULL,
+  company_id integer DEFAULT 0,
+  company_name varchar,
+  email varchar NOT NULL,
+  street varchar NOT NULL,
+  state varchar NOT NULL,
+  city varchar NOT NULL,
+  zip_code varchar NOT NULL
 );
 
 CREATE TABLE public.companies (
   _id serial PRIMARY KEY NOT NULL,
-  company_name varchar NOT NULL,
-  company_phone varchar NOT NULL,
-  company_uri varchar NOT NULL,
-  company_street varchar NOT NULL,
-  company_state varchar NOT NULL,
-  company_city varchar NOT NULL,
-  company_zip_code varchar NOT NULL
+  name varchar NOT NULL,
+  phone varchar NOT NULL,
+  uri varchar NOT NULL,
+  street varchar NOT NULL,
+  state varchar NOT NULL,
+  city varchar NOT NULL,
+  zip_code varchar NOT NULL
 );
 
 ALTER TABLE public.contacts ADD CONSTRAINT "contacts_fk0" FOREIGN KEY (contact_company_id) REFERENCES public.companies(_id);
