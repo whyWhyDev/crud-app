@@ -1,0 +1,60 @@
+.editor-modal {
+  background-color: white;
+  max-width: 800px;
+  margin-top: 80px;
+  margin-left: 80px;
+
+  form {
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: auto auto;
+    position: relative;
+  }
+}
+
+.company-contact-container {
+  margin-top: 80px;
+  margin-left: 80px;
+  max-width: 1300px;
+}
+
+.base-container {
+  background-color: pink;
+  border-radius: 10px;
+  width: 120vh;
+  height: 98vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .cards-display {
+    display: grid;
+    margin-top: 80px;
+    grid-template-columns: auto auto auto;
+    position: relative;
+  }
+
+  .editor {
+      background-color: white;
+  }
+}
+
+.data-grid {
+  margin-top: 80px;
+  margin-left: 80px;
+  max-width: 1300px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-items: center;
+  position: relative;
+}
+
+.display-card {
+  color: black;
+  background: #f3f3f3;
+  padding: 2rem;
+  border: 1px solid lightgray;
+  box-shadow: 1px 1px 5px rgba(22, 22, 22, 0.915);
+}

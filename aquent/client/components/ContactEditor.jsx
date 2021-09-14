@@ -5,8 +5,6 @@ import { Button, Modal, TextField } from '@material-ui/core';
 
 import { createContact, updateContact, removeContacts } from '../services'
 
-import '../sass/DisplayCard.scss';
-
 yup.addMethod(yup.string, 'noDigit', function () {
   return this.matches(/^([^0-9]*)$/, 'The field should have letters only');
 });
@@ -28,13 +26,13 @@ const validationSchema = yup.object({
 export default function ContactEditor ({ contact, contacts, open, handleClose, handleSave }) {
   const formik = useFormik({
     initialValues: contact ? contact : {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'JDoe@aquent.com',
-      street: '2022 Gonna Be',
-      city: 'Oh Yes',
-      state: 'Good Year',
-      zipCode: '12345',
+      firstName: '',
+      lastName: '',
+      email: '',
+      street: '',
+      city: '',
+      state: '',
+      zipCode: '',
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -75,7 +73,7 @@ export default function ContactEditor ({ contact, contacts, open, handleClose, h
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <div className='contact-editor-modal'>
+      <div className='editor-modal'>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             size='small'

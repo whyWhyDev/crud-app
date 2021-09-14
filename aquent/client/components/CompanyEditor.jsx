@@ -30,13 +30,13 @@ export default function CompanyEditor ({ company, handleClose, open, handleSave,
     initialValues: company
       ? company
       : {
-          companyName: 'Aquentsb',
-          phone: '6175355000',
-          uri: 'http://www.aquent.com',
-          street: '123 Secret Street',
-          state: 'New York',
-          city: 'New York',
-          zipCode: '00000',
+          companyName: '',
+          phone: '',
+          uri: '',
+          street: '',
+          state: '',
+          city: '',
+          zipCode: '',
         },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -76,7 +76,7 @@ export default function CompanyEditor ({ company, handleClose, open, handleSave,
   };
   return (
     <Modal open={open} onClose={handleClose}>
-      <div className='company-editor-modal'>
+      <div className='editor-modal'>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             size='small'

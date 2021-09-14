@@ -3,7 +3,7 @@ import { ContactsDisplay } from '../components';
 
 function Display({ companyId, contacts, handleContactOpen, handleHR }, ref) {
   return (
-    <div className='base-container'>
+    <div className='company-contact-container'>
       <ContactsDisplay
         handleHR={handleHR}
         isCompany={true}

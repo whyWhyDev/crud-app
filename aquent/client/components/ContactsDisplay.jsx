@@ -4,8 +4,6 @@ import { DataGrid, GridToolbarContainer } from '@material-ui/data-grid';
 
 import { removeContacts, updateContactsCompany } from '../services';
 
-import '../sass/ContactsDisplay.scss'
-
 function DataTable({ contacts, isCompany, isEmployed, companyId, handleContactOpen, handleHR }, ref) {
   const columns = [
     {

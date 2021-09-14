@@ -9,8 +9,6 @@ import {
 import { Button, CircularProgress, Modal } from '@material-ui/core';
 import { getCompanies, getContacts } from '../services';
 
-import '../sass/BaseContainer.scss';
-
 export default function BaseContainer() {
   const [isLoading, setIsLoading] = useState({
     companies: false,
@@ -111,6 +109,7 @@ export default function BaseContainer() {
         </Modal>
       </div>
       <ContactEditor
+        className='editor'
         handleSave={setContacts}
         contacts={contacts}
         open={modalOpen.contactEditorModal}
@@ -118,6 +117,7 @@ export default function BaseContainer() {
         handleClose={handleModal.contactClose}
       />
       <CompanyEditor
+        className='editor'
         handleSave={setCompanies}
         companies={companies}
         open={modalOpen.companyEditorModal}

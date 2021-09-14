@@ -1,9 +1,7 @@
 const path = require("path");
 const { webpack } = require("webpack");
-//import css from 'file.css';
-//new webpack.EnvironmentPlugin(["NODE_ENV", "DEBUG"]);
+
 module.exports = () => {
-  //console.log("process.env: ", process.env);
 
   console.log("process.env.node_env: ", process.env.NODE_ENV);
 
@@ -17,18 +15,6 @@ module.exports = () => {
         "/": "http://localhost:3000",
         "/contact": "http://localhost:3000",
         "/company": "http://localhost:3000",
-        "/home": "http://localhost:3000",
-        "/api/currentUser": "http://localhost:3000",
-        "/login": "http://localhost:3000",
-        "/login/home": "http://localhost:3000",
-        "/users/login": "http://localhost:3000",
-        "/users/profile": "http://localhost:3000",
-        "/users/new-profile": "http://localhost:3000",
-        "/users/users": "http://localhost:3000",
-        "/users/potential-matches": "http://localhost:3000",
-        "/users/matches": "http://localhost:3000",
-        "/users/swipe": "http://localhost:3000",
-        "/users/interests": "http://localhost:3000",
       },
     },
     output: {
