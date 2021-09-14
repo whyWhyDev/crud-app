@@ -1,24 +1,51 @@
 import axios from 'axios';
 
-const url = './company'
+const url = './company';
+
+const serializer = (obj) => ({
+  id: obj._id,
+  companyName: obj.name,
+  phone: obj.phone,
+  uri: obj.uri,
+  street: obj.street,
+  state: obj.state,
+  city: obj.city,
+  zipCode: obj.zip_code,
+});
 
 const getCompanies = async () => {
-  console.log('hi')
-  const response = await axios.get(url);
-  console.log(response)
-}
+  try {
+    const response = await axios.get(url);
+    return response.data.map((company) => serializer(company));
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const createCompany = async (company) => {
-  console.log('hi', company)
-  const response = await axios.post(url, company);
-}
+  try {
+    const response = await axios.post(url, company);
+    return serializer(response.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 const removeCompany = async (companyId) => {
-  const response = await axios.delete(url, companyId);
-}
+  try {
+    await axios.delete(`${url}/${companyId}`);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
-const updateCompany = async (company) => {
-  const response = await axios.patch(url, company);
-}
+const updateCompany = async (companyId, company) => {
+  try {
+    const response = await axios.patch(`${url}/${companyId}`, company);
+    return serializer(response.data);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export { getCompanies, createCompany, updateCompany, removeCompany };

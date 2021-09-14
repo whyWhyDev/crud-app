@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Modal, TextField } from '@material-ui/core';
-import { createCompany, updateCompany, getCompanies } from '../services'
+import { createCompany, updateCompany, removeCompany } from '../services';
 
 yup.addMethod(yup.string, 'noDigit', function () {
   return this.matches(/^([^0-9]*)$/, 'The field should have letters only');
@@ -10,7 +10,10 @@ yup.addMethod(yup.string, 'noDigit', function () {
 
 const validationSchema = yup.object({
   companyName: yup.string('Company Name').required('Company Name is required'),
-  phone: yup.string('Phone Number').matches(/^\d+$/, 'Phone number should have digits only').required('Phone number is required'),
+  phone: yup
+    .string('Phone Number')
+    .matches(/^\d+$/, 'Phone number should have digits only')
+    .required('Phone number is required'),
   uri: yup.string('Company Web Site').url('Enter a valid URI').required('Company web site is required'),
   street: yup.string('Street').required('Street is required'),
   state: yup.string('State').noDigit().required('State is required'),
@@ -22,30 +25,57 @@ const validationSchema = yup.object({
     .required('Zip Code is required'),
 });
 
-const CompanyEditor = ({ company }) => {
-  const isUpdate = company ? true : false;
-
+export default function CompanyEditor ({ company, handleClose, open, handleSave, companies }) {
   const formik = useFormik({
-    initialValues: company ? company : {
-      companyName: 'Aquent',
-      phone: '6175355000',
-      uri: 'http://www.aquent.com',
-      street: '123 Secret Street',
-      state: 'New York',
-      city: 'New York',
-      zipCode: '00000',
-    },
+    initialValues: company
+      ? company
+      : {
+          companyName: 'Aquentsb',
+          phone: '6175355000',
+          uri: 'http://www.aquent.com',
+          street: '123 Secret Street',
+          state: 'New York',
+          city: 'New York',
+          zipCode: '00000',
+        },
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      // values = (JSON.stringify(values, null, 2));
-      getCompanies()
-      // createCompany(values);
-
+      try {
+        const response = company ? await updateCompany(company.id, values) : await createCompany(values);
+        const newCompanies = companies.slice();
+        if (company === undefined) {
+          newCompanies.push(response);
+        } else {
+          for (let i = 0; i < newCompanies.length; i++) {
+            if (newCompanies[i].id === response.id) {
+              newCompanies[i] = response;
+              break;
+            }
+          }
+        }
+        handleSave(newCompanies);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        handleClose()
+      }
     },
   });
 
+  const handleRemove = async () => {
+    try {
+      await removeCompany(company.id);
+      const newCompanies = companies.slice().filter((c) => c.id !== company.id);
+      handleSave(newCompanies);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      handleClose()
+    }
+  };
   return (
-    <Modal open={true}>
+    <Modal open={open} onClose={handleClose}>
       <div className='company-editor-modal'>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -118,8 +148,11 @@ const CompanyEditor = ({ company }) => {
             error={formik.touched.zipCode && Boolean(formik.errors.zipCode)}
             helperText={formik.touched.zipCode && formik.errors.zipCode}
           />
+          {company && <Button color='primary' variant='contained' size='small' onClick={handleRemove}>
+            Delete Company
+          </Button>}
           <Button color='primary' variant='contained' size='small' type='submit'>
-            Submit
+            Save
           </Button>
         </form>
       </div>
@@ -127,4 +160,3 @@ const CompanyEditor = ({ company }) => {
   );
 };
 
-export default CompanyEditor;

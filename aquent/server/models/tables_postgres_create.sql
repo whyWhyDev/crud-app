@@ -5,13 +5,13 @@ CREATE TABLE public.contacts (
   _id serial PRIMARY KEY NOT NULL,
   first_name varchar NOT NULL,
   last_name varchar NOT NULL,
-  company_id integer DEFAULT 0,
-  company_name varchar,
   email varchar NOT NULL,
   street varchar NOT NULL,
   state varchar NOT NULL,
   city varchar NOT NULL,
-  zip_code varchar NOT NULL
+  zip_code varchar NOT NULL,
+  company_id integer DEFAULT 0,
+  company_name varchar DEFAULT ''
 );
 
 CREATE TABLE public.companies (

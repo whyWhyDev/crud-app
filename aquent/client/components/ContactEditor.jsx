@@ -3,6 +3,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Modal, TextField } from '@material-ui/core';
 
+import { createContact, updateContact, removeContacts } from '../services'
+
 import '../sass/DisplayCard.scss';
 
 yup.addMethod(yup.string, 'noDigit', function () {
@@ -23,25 +25,56 @@ const validationSchema = yup.object({
     .required('Zip Code is required'),
 });
 
-const ContactEditor = ({ contact, open }) => {
+export default function ContactEditor ({ contact, contacts, open, handleClose, handleSave }) {
   const formik = useFormik({
     initialValues: contact ? contact : {
-      firstName: '',
-      lastName: '',
-      email: '',
-      street: '',
-      state: '',
-      city: '',
-      zipCode: '',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'JDoe@aquent.com',
+      street: '2022 Gonna Be',
+      city: 'Oh Yes',
+      state: 'Good Year',
+      zipCode: '12345',
     },
+    enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const response = contact ? await updateContact(contact.id, values) : await createContact(values);
+        const newContacts = contacts.slice();
+        if (contact === undefined) {
+          newContacts.push(response);
+        } else {
+          for (let i = 0; i < newContacts.length; i++) {
+            if (newContacts[i].id === response.id) {
+              newContacts[i] = response;
+              break;
+            }
+          }
+        }
+        handleSave(newContacts);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        handleClose()
+      }
     },
   });
 
+  const handleRemove = async () => {
+    try {
+      await removeContacts([contact.id]);
+      const newContacts = contacts.slice().filter((c) => c.id !== contact.id);
+      handleSave(newContacts);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      handleClose()
+    }
+  };
+
   return (
-    <Modal open={open}>
+    <Modal open={open} onClose={handleClose}>
       <div className='contact-editor-modal'>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -117,10 +150,12 @@ const ContactEditor = ({ contact, open }) => {
           <Button color='primary' variant='contained' size='small' type='submit'>
             Submit
           </Button>
+          {contact && <Button color='primary' variant='contained' size='small' onClick={handleRemove}>
+            Delete Contact
+          </Button>}
         </form>
       </div>
     </Modal>
   );
 };
 
-export default ContactEditor;

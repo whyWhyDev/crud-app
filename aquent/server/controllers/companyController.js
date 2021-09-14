@@ -51,7 +51,7 @@ companyController.updateCompany = (req, res, next) => {
 };
 
 companyController.removeCompany = (req, res, next) => {
-  const statement = `DELETE FROM company WHERE _id = ${req.params.company_id}`;
+  const statement = `DELETE FROM companies WHERE _id = ${req.params.company_id}`;
   db.query(statement, (err, result) => {
     if (err) return next(errMessage('removeCompany'));
     return next();

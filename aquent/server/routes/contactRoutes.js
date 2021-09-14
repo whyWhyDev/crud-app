@@ -11,6 +11,10 @@ router.get('/:company_id', contactController.getContacts, (_, res) => {
   res.status(200).json(res.locals.contacts);
 });
 
+router.patch('/company/:company_id', contactController.updateContactsCompany, (_, res) => {
+  res.status(200).json(res.locals.contact);
+});
+
 router.post('/', contactController.createContact, (_, res) => {
   res.status(200).json(res.locals.contact);
 });
@@ -19,11 +23,9 @@ router.patch('/:contact_id', contactController.updateContact, (_, res) => {
   res.status(200).json(res.locals.contact);
 });
 
-router.patch('/:contact_id/:company_id', contactController.updateContactCompany, (_, res) => {
-  res.status(200).json(res.locals.contact);
-});
 
-router.delete('/:contact_id', contactController.removeContact, (_, res) => {
+
+router.delete('/', contactController.removeContacts, (_, res) => {
   res.sendStatus(200);
 });
 
